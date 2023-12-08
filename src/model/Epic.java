@@ -1,27 +1,28 @@
+package model;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Epic extends Task {
-    private Integer[] subtaskIds;  // each epic knows which subtasks belong to it
-
-    public Epic(String name, String description, int id, String status, Integer[] subtaskIds) {
+    private ArrayList<Subtask> subtasks;
+    
+    public Epic(String name, String description, int id, Status status, ArrayList<Subtask> subtasks) {
         super(name, description, id, status);
-        this.subtaskIds = subtaskIds;
+        this.subtasks = subtasks;
     }
 
-    public Integer[] getAllSubtasksIds() {
-        return subtaskIds;
+    public ArrayList<Subtask> getAllSubtasks() {
+        return subtasks;
     }
 
-    public void updateStatus(ArrayList<Subtask> subtaskArrayList) {  // suppose we get correct arrayList here
-        if (subtaskIds.length == 0) {
-            status = 1;  // NEW
+    public void updateStatus() {  // suppose we get correct arrayList here
+        if (subtasks.size() == 0) {
+            status = Status.NEW;  // NEW
             return;
         }
 
         int newStatusCount = 0;
         int doneStatusCount = 0;
-        for (Subtask subtask : subtaskArrayList) {
+        for (Subtask subtask : this.subtasks) {
             switch (subtask.getStatus()) {
                 case "NEW":
                     ++newStatusCount;
@@ -32,17 +33,17 @@ public class Epic extends Task {
             }
         }
 
-        if (newStatusCount == subtaskArrayList.size()) {
-            status = 1;
+        if (newStatusCount == subtasks.size()) {
+            status = Status.NEW;
             return;
         }
 
-        if (doneStatusCount == subtaskArrayList.size()) {
-            status = 3;
+        if (doneStatusCount == subtasks.size()) {
+            status = Status.DONE;
             return;
         }
 
-        status = 2;  // IN_PROGRESS
+        status = Status.IN_PROGRESS;  // IN_PROGRESS
     }
 
     @Override
@@ -52,7 +53,7 @@ public class Epic extends Task {
                 ", description='" + description + '\'' +
                 ", id='" + id + '\'' +
                 ", status='" + getStatus() + '\'' +
-                ", taskIds=" + Arrays.toString(subtaskIds) +
+                ", taskIds=" + subtasks +
                 '}';
     }
 }

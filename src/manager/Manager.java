@@ -1,6 +1,10 @@
+package manager;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import model.*;
 
 public class Manager {
     private HashMap<Integer, Task> tasks;  // HashMap's key always matches task's id
@@ -14,31 +18,16 @@ public class Manager {
     }
 
     ////////////////////////////////////////
-    public String getAllTasks() {
-        String res = "Tasks=[";
-        for (Task task : tasks.values()) {
-            res += task + ", ";
-        }
-        res += "]";
-        return res;
+    public Collection<Task> getAllTasks() {
+        return tasks.values();
     }
 
-    public String getAllEpics() {
-        String res = "Epics=[";
-        for (Epic epic : epics.values()) {
-            res += epic + ", ";
-        }
-        res += "]";
-        return res;
+    public Collection<Epic> getAllEpics() {
+        return epics.values();
     }
 
-    public String getAllSubtasks() {
-        String res = "Subtasks=[";
-        for (Subtask subtask : subtasks.values()) {
-            res += subtask + ", ";
-        }
-        res += "]";
-        return res;
+    public Collection<Subtask> getAllSubtasks() {
+        return subtasks.values();
     }
     ////////////////////////////////////////
 
@@ -124,29 +113,14 @@ public class Manager {
     }
     ////////////////////////////////////////
 
-    public void getAllSubtasksOfTheEpic(int epicId) {
+    public Collection<Subtask> getAllSubtasksOfTheEpic(int epicId) {
         Epic epic = epics.get(epicId);  // shallow copy, no extra memory used (except for the reference)
-
-        Integer[] subtasksIds = epic.getAllSubtasksIds();
-
-        for (int i = 0; i < subtasksIds.length; ++i) {
-            System.out.println(subtasks.get(i));
-        }
+        return epic.getAllSubtasks();
     }
     ////////////////////////////////////////
 
     public void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
-        Integer[] subtasksIds = epic.getAllSubtasksIds();
-
-        ArrayList<Subtask> epicSubtasks = new ArrayList<>();  // collect all subtasks for out epic
-
-        for (Subtask subtask : subtasks.values()) {
-            if (Arrays.asList(subtasksIds).contains(subtask.getId())) {
-                epicSubtasks.add(subtask);
-            }
-        }
-
-        epic.updateStatus(epicSubtasks);
+        epic.updateStatus();
     }
 }
