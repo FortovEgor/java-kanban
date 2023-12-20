@@ -1,4 +1,6 @@
-import manager.Manager;
+import manager.InMemoryTaskManager;
+import manager.Managers;
+import manager.TaskManager;
 import model.Epic;
 import model.Subtask;
 import model.Task;
@@ -26,7 +28,8 @@ public class Main {
                 new ArrayList<>(Arrays.asList(subtask3)));
 
         ///// creating manager & adding all objects to it /////
-        Manager billGates = new Manager();
+        Managers utilManager = new Managers();
+        TaskManager billGates = utilManager.getDefault(Managers.getDefaultHistory());
         billGates.addTask(task1);
         billGates.addTask(task2);
         billGates.addEpic(epic1);
@@ -81,5 +84,10 @@ public class Main {
         System.out.println(billGates.getAllTasks());
         System.out.println(billGates.getAllEpics());
         System.out.println(billGates.getAllSubtasks());
+
+
+        // Test for history display
+        billGates.getTaskById(1);
+        System.out.println("History of views: " + billGates.getHistory());
     }
 }
