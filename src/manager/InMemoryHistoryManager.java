@@ -2,6 +2,7 @@ package manager;
 
 import model.Task;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -21,7 +22,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public Queue<Task> getHistory() {
+    public Collection<Task> getHistory() {
         return tasksHistory;
     }
 }

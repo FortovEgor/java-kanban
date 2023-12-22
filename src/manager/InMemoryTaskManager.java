@@ -5,9 +5,9 @@ import java.util.*;
 import model.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private HashMap<Integer, Task> tasks;  // HashMap's key always matches task's id
-    private HashMap<Integer, Epic> epics;  // HashMap's key always matches task's id
-    private HashMap<Integer, Subtask> subtasks;  // HashMap's key always matches task's id
+    private Map<Integer, Task> tasks;  // HashMap's key always matches task's id
+    private Map<Integer, Epic> epics;  // HashMap's key always matches task's id
+    private Map<Integer, Subtask> subtasks;  // HashMap's key always matches task's id
     private HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
@@ -146,7 +146,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Queue<Task> getHistory() {
+    public Collection<Task> getHistory() {
         return historyManager.getHistory();
     }
 }

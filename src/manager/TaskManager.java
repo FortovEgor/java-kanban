@@ -4,10 +4,7 @@ import model.Epic;
 import model.Subtask;
 import model.Task;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public interface TaskManager {
     Collection<Task> getAllTasks();
@@ -37,5 +34,5 @@ public interface TaskManager {
     Collection<Subtask> getAllSubtasksOfTheEpic(int epicId);
     void updateEpicStatus(int epicId);
 
-    Queue<Task> getHistory();
+    Collection<Task> getHistory();
 }
