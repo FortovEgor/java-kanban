@@ -1,7 +1,7 @@
 package manager;
 
 public class Managers {
-    public TaskManager getDefault(HistoryManager historyManager) {
+    public static TaskManager getDefault(HistoryManager historyManager) {
         return new InMemoryTaskManager(historyManager);
     }
 

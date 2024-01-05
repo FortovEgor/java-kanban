@@ -7,33 +7,29 @@ import java.util.*;
 public class InMemoryHistoryManager implements HistoryManager {
     private Node head;
     private Node tail;
-    private int size;
 
     private Map<Integer, Node> idNode;
 
     public InMemoryHistoryManager() {
         head = null;
         tail = null;
-        size = 0;
         idNode = new HashMap<>();
     }
 
     @Override
     public void add(Task task) {
-        while (size >= 10) {  // размер истории просмотров <= 10
-            removeNode(head);
-            --size;
-        }
         if (idNode.containsKey(task.getId())) {  // эта задача уже просматривалась => удаляем ее из истории просмотров
-            removeNode(idNode.get(task.getId()));
+            removeNodeFromList(idNode.get(task.getId()));
+            idNode.remove(task.getId());
+        }
+
+        while (idNode.size() >= 10) {  // ограничение на размер истории просмотров
+            idNode.remove(head.task.getId());
+            removeNodeFromList(head);
         }
 
         linkLast(task);
-        if (size == 1) {
-            idNode.put(task.getId(), head);
-        } else {
-            idNode.put(task.getId(), tail);
-        }
+        idNode.put(task.getId(), tail);
     }
 
     @Override
@@ -43,23 +39,26 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
+        int size_before = getTasks().size();
+
         Node nodeToDelete = idNode.get(id);
-        removeNode(nodeToDelete);
+        removeNodeFromList(nodeToDelete);
         idNode.remove(id);
+
+
+        int size_after = getTasks().size();
     }
 
     private void linkLast(Task task) {
-        if (size == 0) {
+        if (idNode.isEmpty()) {
             head = new Node(task);
             tail = head;
-            ++size;
             return;
         }
-        if (size == 1) {
+        if (idNode.size() == 1) {
             tail = new Node(task);
             head.next = tail;
             tail.prev = head;
-            ++size;
             return;
         }
 
@@ -67,7 +66,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         tail.next = new Node(task);
         tail.next.prev = tail;
         tail = tail.next;
-        ++size;
     }
 
     private List<Task> getTasks() {
@@ -79,12 +77,11 @@ public class InMemoryHistoryManager implements HistoryManager {
             node = node.next;
         }
 
-        return tasks;
+        return tasks;  // size = 7, хотя size(hashMap) = 6
     }
 
-    private void removeNode(Node node) {
-        // assume that node либо == null, либо точно содержится в нашем списке
-        if (node == null) {
+    private void removeNodeFromList(Node node) {
+        if (node == null || !idNode.containsKey(node.task.getId())) {
             return;
         }
         if (node == head) {
@@ -95,7 +92,6 @@ public class InMemoryHistoryManager implements HistoryManager {
                 head = null;
                 tail = null;
             }
-            --size;
             return;
         }
         if (node == tail) {
@@ -106,7 +102,6 @@ public class InMemoryHistoryManager implements HistoryManager {
                 tail = null;
                 head = null;
             }
-            --size;
             return;
         }
 
@@ -115,18 +110,17 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node node_next = node.next;
         node_prev.next = node_next;
         node_next.prev = node_prev;
-        --size;
     }
 
-    static class Node {
+    private static class Node {
         public Node prev;
         public Task task;
         public Node next;
 
         public Node(Task task) {
-            this.prev = null;
+            prev = null;
             this.task = task;
-            this.next = null;
+            next = null;
         }
     }
 }

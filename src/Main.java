@@ -27,8 +27,7 @@ public class Main {
                 new ArrayList<>());
 
         ///// creating manager & adding all objects to it /////
-        Managers utilManager = new Managers();
-        TaskManager billGates = utilManager.getDefault(Managers.getDefaultHistory());
+        TaskManager billGates = Managers.getDefault(Managers.getDefaultHistory());
         billGates.addTask(task1);
         billGates.addTask(task2);
         billGates.addEpic(epic1);
