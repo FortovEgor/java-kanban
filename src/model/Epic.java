@@ -1,10 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Epic extends Task {
     private ArrayList<Subtask> subtasks;
-    
+
     public Epic(String name, String description, int id, Status status, ArrayList<Subtask> subtasks) {
         super(name, description, id, status);
         this.subtasks = subtasks;
@@ -12,6 +13,10 @@ public class Epic extends Task {
 
     public ArrayList<Subtask> getAllSubtasks() {
         return subtasks;
+    }
+
+    public void deleteSubtask(int id) {
+        subtasks.removeIf(elem -> elem.getId() == id);
     }
 
     public void updateStatus() {  // suppose we get correct arrayList here
