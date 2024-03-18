@@ -1,6 +1,16 @@
 package model;
 
+import java.util.Objects;
+
 public class Task {
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     protected String name;
     protected String description;
     protected int id;  // must be unique
@@ -27,6 +37,21 @@ public class Task {
 
     public String getStatus() {
         return status.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id;
+    }
+
+    @Override
+    public int hashCode() {
+        // оставляем только id - т.к. каждый id уникален по условию задачи
+        // условие: "...две задачи с одинаковым id должны выглядеть для менеджера как одна и та же. "
+        return Objects.hash(id);
     }
 
     @Override

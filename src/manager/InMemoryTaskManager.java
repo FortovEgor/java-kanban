@@ -72,7 +72,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getEpicById(int id) {
+    public Epic getEpicById(int id) {
         historyManager.add(epics.get(id));
         return epics.get(id);
     }
