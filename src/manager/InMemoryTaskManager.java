@@ -5,10 +5,10 @@ import java.util.*;
 import model.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private Map<Integer, Task> tasks;  // HashMap's key always matches task's id
-    private Map<Integer, Epic> epics;  // HashMap's key always matches task's id
-    private Map<Integer, Subtask> subtasks;  // HashMap's key always matches task's id
-    private HistoryManager historyManager;
+    Map<Integer, Task> tasks;  // HashMap's key always matches task's id
+    Map<Integer, Epic> epics;  // HashMap's key always matches task's id
+    Map<Integer, Subtask> subtasks;  // HashMap's key always matches task's id
+    HistoryManager historyManager;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         tasks = new HashMap<>();
