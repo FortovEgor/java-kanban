@@ -21,13 +21,10 @@ public class FileTest {
         try {
             File file = File.createTempFile("test", "csv");
             // write data to file
-            try (Writer fileWriter = new FileWriter(file, false)) {
-                fileWriter.write("id,type,name,status,description,epic\n");
-                fileWriter.write("2,TASK,task2,NEW,my second task,\n");
-                fileWriter.write("3,TASK,task3,NEW,my third task,\n");
-            } catch (IOException e) {
-                assertNotEquals(1, 2);
-            }
+            Writer fileWriter = new FileWriter(file, false);
+            fileWriter.write("id,type,name,status,description,epic\n");
+            fileWriter.write("2,TASK,task2,NEW,my second task,\n");
+            fileWriter.write("3,TASK,task3,NEW,my third task,\n");
 
             taskManager = new FileBackedTaskManager(historyManager, file.getPath());
             assertEquals(2, taskManager.getAllTasks().size());

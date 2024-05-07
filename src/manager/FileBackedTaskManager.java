@@ -42,33 +42,31 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     tasks.put(task.getId(), task);
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ManagerSaveException("failed to load from file");
         }
     }
 
     /// get task in format "1,TASK,Task1,NEW,Description task1,"
     private String toString(Task task, TaskType type) {
-        return task.getId() + "," + type.name() + "," + task.getName() + "," +
-                task.getStatus() + "," + task.getDescription();
+        return String.join(",", Integer.toString((task.getId())), type.name(),  task.getName(), task.getStatus(), task.getDescription());
     }
 
     /// creates task from strings stored in format "1,TASK,Task1,NEW,Description task1,"
     private Task fromString(String value) throws Exception {
         String[] parts = value.split(",");
         var type = parts[1];
+        String name = parts[2];
+        int id = Integer.parseInt(parts[0]);
+        Status status = Status.valueOf(parts[3]);
+        String description = parts[4];
         if (type.equals(TaskType.TASK.toString())) {
-            return new Task(parts[2], parts[4], Integer.parseInt(parts[0]), Status.valueOf(parts[3]));
+            return new Task(name, description, id , status);
         } else if (type.equals(TaskType.EPIC.toString())) {
-            return new Epic(parts[2], parts[4], Integer.parseInt(parts[0]), Status.valueOf(parts[3]),
-                    new ArrayList<>());
+            return new Epic(name, description, id, status, new ArrayList<>());
         } else if (type.equals(TaskType.SUBTASK.toString())) {
-            return new Subtask(parts[2], parts[4], Integer.parseInt(parts[0]), Status.valueOf(parts[3]),
-                    Integer.parseInt(parts[5]));
+            int epicId = Integer.parseInt(parts[5]);
+            return new Subtask(name,description, id, status, epicId);
         } else {
             throw new Exception("unknown task type");
         }
