@@ -21,4 +21,8 @@ public class Subtask extends Task {
                 ", epicId='" + epicId + '\'' +
                 '}';
     }
+
+    public int getEpicId() {
+        return epicId;
+    }
 }
