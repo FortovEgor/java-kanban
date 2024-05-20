@@ -8,6 +8,8 @@ import model.Subtask;
 import model.Task;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,10 +22,11 @@ class InMemoryTaskManagerTest {
         InMemoryTaskManager manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
         // create & add tasks and its inheritance
-        Task task1 = new Task("task1_name", "task1_description", 1, Status.NEW);
+        Task task1 = new Task("task1_name", "task1_description", 1, Status.NEW,
+                Duration.ZERO, LocalDateTime.now());
         manager.addTask(task1);
         Subtask subtask1 = new Subtask("subtask1_name", "subtask1_description",
-                2, Status.NEW, 1);
+                2, Status.NEW, 1, Duration.ZERO, LocalDateTime.now());
         manager.addSubtask(subtask1);
         Epic epic1 = new Epic("epic1_name", "epic1_description", 3, Status.NEW,
                 new ArrayList<>(Arrays.asList(subtask1)));
@@ -51,7 +54,8 @@ class InMemoryTaskManagerTest {
     public void immutabilityOfTheTaskAddedToManager() {
         InMemoryTaskManager manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
-        Task task = new Task("task1_name", "task1_description", 1, Status.NEW);
+        Task task = new Task("task1_name", "task1_description", 1, Status.NEW,
+                Duration.ZERO, LocalDateTime.now());
         manager.addTask(task);
         Task gotTask = manager.getTaskById(1);
 

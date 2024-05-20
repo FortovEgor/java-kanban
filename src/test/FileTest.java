@@ -9,6 +9,8 @@ import model.Task;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,8 +31,8 @@ public class FileTest {
             taskManager = new FileBackedTaskManager(historyManager, file.getPath());
             assertEquals(2, taskManager.getAllTasks().size());
 
-            final Task task1 = new Task("task1_name", "task1_description", 3, Status.NEW);
-            final Task task2 = new Task("task2_name", "task2_description", 4, Status.NEW);
+            final Task task1 = new Task("task1_name", "task1_description", 3, Status.NEW, Duration.ZERO, LocalDateTime.now());
+            final Task task2 = new Task("task2_name", "task2_description", 4, Status.NEW, Duration.ZERO, LocalDateTime.now());
 
             taskManager.addTask(task1);
             taskManager.addTask(task2);

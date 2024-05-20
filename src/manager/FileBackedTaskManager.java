@@ -3,6 +3,9 @@ package manager;
 import model.*;
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -16,9 +19,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     final String file;
+    final DateTimeFormatter formatter;
     public FileBackedTaskManager(HistoryManager historyManager, final String fileName) {
         super(historyManager);
         this.file = fileName;
+        this.formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy|HH:mm");
         File file = new File(fileName);
         loadFromFile(file);
     }
@@ -49,7 +54,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     /// get task in format "1,TASK,Task1,NEW,Description task1,"
     private String toString(Task task, TaskType type) {
-        return String.join(",", Integer.toString((task.getId())), type.name(),  task.getName(), task.getStatus(), task.getDescription());
+        String duration = Long.toString(task.getDuration().toMinutes());
+        return String.join(",", Integer.toString((task.getId())), type.name(), task.getName(),
+                task.getStatus(), task.getDescription(), duration,
+                task.getStartTime().format(formatter));
     }
 
     /// creates task from strings stored in format "1,TASK,Task1,NEW,Description task1,"
@@ -60,13 +68,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         int id = Integer.parseInt(parts[0]);
         Status status = Status.valueOf(parts[3]);
         String description = parts[4];
+        long minutes = Long.parseLong(parts[5]);
+        Duration duration = Duration.ofMinutes(minutes);
+        LocalDateTime dateTime = LocalDateTime.parse(parts[6], formatter);
         if (type.equals(TaskType.TASK.toString())) {
-            return new Task(name, description, id , status);
+            return new Task(name, description, id , status, duration, dateTime);
         } else if (type.equals(TaskType.EPIC.toString())) {
             return new Epic(name, description, id, status, new ArrayList<>());
         } else if (type.equals(TaskType.SUBTASK.toString())) {
-            int epicId = Integer.parseInt(parts[5]);
-            return new Subtask(name,description, id, status, epicId);
+            int epicId = Integer.parseInt(parts[7]);
+            return new Subtask(name, description, id, status, epicId, duration, dateTime);
         } else {
             throw new Exception("unknown task type");
         }
@@ -76,7 +87,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     // i.e. each time refresh full file with actual data
     private void save() {
         try (Writer fileWriter = new FileWriter(file, false)) {
-            fileWriter.write("id,type,name,status,description,epic\n");
+            fileWriter.write("id,type,name,status,description,duration,startTime,epic\n");
 
             final int tasksNumber = tasks.size() + epics.size() + subtasks.size();
             int savedTasksNumber = 0;

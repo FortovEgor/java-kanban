@@ -1,5 +1,7 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -15,12 +17,17 @@ public class Task {
     protected String description;
     protected int id;  // must be unique
     protected Status status;  // 1 - NEW; 2 - IN_PROGRESS; 3 - DONE
+    protected Duration duration;
+    protected LocalDateTime startTime;
 
-    public Task(String name, String description, int id, Status status) {
+
+    public Task(String name, String description, int id, Status status, Duration duration, LocalDateTime startTime) {
         this.name = name;
         this.description = description;
         this.id = id;
         this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
     }
 
     public int getId() {
@@ -38,6 +45,12 @@ public class Task {
     public String getStatus() {
         return status.toString();
     }
+
+    public LocalDateTime getEndTime() { return startTime.plus(duration); }
+
+    public LocalDateTime getStartTime() { return startTime; }
+
+    public Duration getDuration() { return duration; }
 
     @Override
     public boolean equals(Object o) {

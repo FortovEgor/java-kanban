@@ -1,14 +1,18 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
 public class Epic extends Task {
     private ArrayList<Subtask> subtasks;
+    protected LocalDateTime endTime;
 
     public Epic(String name, String description, int id, Status status, ArrayList<Subtask> subtasks) {
-        super(name, description, id, status);
+        super(name, description, id, status, Duration.ZERO, LocalDateTime.now());
         this.subtasks = subtasks;
+        updateTime();
     }
 
     public ArrayList<Subtask> getAllSubtasks() {
@@ -49,6 +53,27 @@ public class Epic extends Task {
         }
 
         status = Status.IN_PROGRESS;  // IN_PROGRESS
+    }
+
+    public void updateTime() {
+        // @TODO: calculate startTime & then endTime according to all tasks in the epic
+        LocalDateTime earliestDateTime = LocalDateTime.MAX;
+        for (int i = 0; i < subtasks.size(); ++i) {
+            if (subtasks.get(i).getStartTime().isBefore(earliestDateTime)) {
+                earliestDateTime = subtasks.get(i).getStartTime();
+            }
+        }
+        this.startTime = earliestDateTime;
+
+        LocalDateTime latestDateTime = LocalDateTime.MIN;
+        for (int i = 0; i < subtasks.size(); ++i) {
+            if (subtasks.get(i).getStartTime().isAfter(latestDateTime)) {
+                latestDateTime = subtasks.get(i).getStartTime();
+            }
+        }
+        this.endTime = latestDateTime;
+
+        this.duration = Duration.between(startTime, endTime);
     }
 
     @Override

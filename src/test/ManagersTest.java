@@ -11,6 +11,8 @@ import model.Subtask;
 import model.Task;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,12 +26,17 @@ class ManagersTest {
         try {
             // здесь приведем просто весь код Main без console output; он покрывает все методы классов менеджеров
             ///// creating objects /////
-            Task task1 = new Task("task1", "my first task", 1, NEW);
-            Task task2 = new Task("task2", "my second task", 2, NEW);
+            Task task1 = new Task("task1", "my first task", 1, NEW,
+                    Duration.ZERO, LocalDateTime.now());
+            Task task2 = new Task("task2", "my second task", 2, NEW,
+                    Duration.ZERO, LocalDateTime.now());
 
-            Subtask subtask1 = new Subtask("subtask1", "my first subtask", 3, NEW, 6);
-            Subtask subtask2 = new Subtask("subtask2", "my second subtask", 4, NEW, 6);
-            Subtask subtask3 = new Subtask("subtask3", "my third subtask", 5, NEW, 6);
+            Subtask subtask1 = new Subtask("subtask1", "my first subtask", 3, NEW, 6,
+                    Duration.ZERO, LocalDateTime.now());
+            Subtask subtask2 = new Subtask("subtask2", "my second subtask", 4, NEW, 6,
+                    Duration.ZERO, LocalDateTime.now());
+            Subtask subtask3 = new Subtask("subtask3", "my third subtask", 5, NEW, 6,
+                    Duration.ZERO, LocalDateTime.now());
 
             Epic epic1 = new Epic("epic1", "my first epic", 6, NEW,
                     new ArrayList<>(Arrays.asList(subtask1, subtask2, subtask3)));
