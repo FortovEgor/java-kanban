@@ -86,4 +86,10 @@ public class Epic extends Task {
                 ", taskIds=" + subtasks +
                 '}';
     }
+
+    @Override
+    public String getStatus() {
+        updateStatus();
+        return super.getStatus();
+    }
 }
