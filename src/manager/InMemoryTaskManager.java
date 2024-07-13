@@ -10,11 +10,14 @@ public class InMemoryTaskManager implements TaskManager {
     Map<Integer, Subtask> subtasks;  // HashMap's key always matches task's id
     HistoryManager historyManager;
 
+    Set<Task> prioritizedTasks;  // список задач по приоритету
+
     public InMemoryTaskManager(HistoryManager historyManager) {
         tasks = new HashMap<>();
         epics = new HashMap<>();
         subtasks = new HashMap<>();
         this.historyManager = new InMemoryHistoryManager();
+        prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));  // "автосортировка"
     }
 
     ////////////////////////////////////////
@@ -24,6 +27,11 @@ public class InMemoryTaskManager implements TaskManager {
             historyManager.add(task);
         }
         return tasks.values();
+    }
+
+    @Override
+    public Set<Task> getPrioritizedTasks() {
+        return prioritizedTasks;
     }
 
     @Override
@@ -78,8 +86,20 @@ public class InMemoryTaskManager implements TaskManager {
     }
     ////////////////////////////////////////
 
+    protected boolean isCrossing(Task task1, Task task2) {
+        return (task1.getEndTime().isAfter(task2.getStartTime()))
+                || (task2.getEndTime().isAfter(task1.getStartTime()));
+    }
+
+    protected boolean isCrossingWithAnyOther(Task task, Set<Task> tasks) {
+        return tasks.stream().anyMatch(currTask -> isCrossing(task, currTask));
+    }
+    ////////////////////////////////////////
+
     @Override
     public void addTask(Task task) {
+        if (isCrossingWithAnyOther(task, prioritizedTasks)) return;
+
         int taskId = tasks.size() + 1;  // taskId must be unique
         while (tasks.containsKey(taskId)) {
             ++taskId;
@@ -87,6 +107,7 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(taskId);
 
         tasks.put(taskId, task);
+        prioritizedTasks.add(task);
     }
 
     @Override
@@ -96,6 +117,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addSubtask(Subtask subtask) {
+        if (isCrossingWithAnyOther(subtask, prioritizedTasks)) return;
         subtasks.put(subtask.getId(), subtask);
     }
     ////////////////////////////////////////

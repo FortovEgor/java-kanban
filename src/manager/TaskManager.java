@@ -10,6 +10,7 @@ public interface TaskManager {
     Collection<Task> getAllTasks();
     Collection<Epic> getAllEpics();
     Collection<Subtask> getAllSubtasks();
+    Set<Task> getPrioritizedTasks();
 
     void deleteAllTasks();
     void deleteAllEpics();
