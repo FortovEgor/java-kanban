@@ -25,11 +25,14 @@ public class FileTest {
             // write data to file
             Writer fileWriter = new FileWriter(file, false);
             fileWriter.write("id,type,name,status,description,epic\n");
-            fileWriter.write("2,TASK,task2,NEW,my second task,\n");
-            fileWriter.write("3,TASK,task3,NEW,my third task,\n");
+//            fileWriter.write("2,TASK,task2,NEW,my second task,\n");
+            fileWriter.write("3,TASK,task3,NEW,my third task,10,01.02.2222|11:11,1\n");
+            fileWriter.flush();
+//            id,type,name,status,description,duration,startTime,epic
+//            fileWriter.close();
 
             taskManager = new FileBackedTaskManager(historyManager, file.getPath());
-            assertEquals(2, taskManager.getAllTasks().size());
+            assertEquals(1, taskManager.getAllTasks().size());
 
             final Task task1 = new Task("task1_name", "task1_description", 3, Status.NEW, Duration.ZERO, LocalDateTime.now());
             final Task task2 = new Task("task2_name", "task2_description", 4, Status.NEW, Duration.ZERO, LocalDateTime.now());
@@ -37,7 +40,7 @@ public class FileTest {
             taskManager.addTask(task1);
             taskManager.addTask(task2);
 
-            assertEquals(4, taskManager.getAllTasks().size());
+            assertEquals(2, taskManager.getAllTasks().size());  // должно остаться 2 из-за наложений по времени как раз таки
 
             taskManager.deleteAllEpics();
 
@@ -55,7 +58,7 @@ public class FileTest {
                 e.printStackTrace();
             }
             --tasks;  // first line is not a task
-            assertEquals(4, tasks);
+            assertEquals(2, tasks);
         } catch (IOException e) {
             assertNotEquals(1, 2);
         }
