@@ -30,9 +30,6 @@ public class EpicStatusTest {
 
         Epic epic = manager.getEpicById(3);
         assertEquals(epic.getStatus(), Status.NEW.toString());
-//        assertNotNull(epic);
-//        assertEquals(epic.getAllSubtasks().size(), 2);
-//        assertEquals(epic.getAllSubtasks().get(0).getStatus(), Status.NEW);
     }
 
     @Test
@@ -50,9 +47,6 @@ public class EpicStatusTest {
 
         Epic epic = manager.getEpicById(3);
         assertEquals(epic.getStatus(), Status.DONE.toString());
-//        assertNotNull(epic);
-//        assertEquals(epic.getAllSubtasks().size(), 2);
-//        assertEquals(epic.getAllSubtasks().get(0).getEpicId(), 3);
     }
 
     @Test
@@ -70,9 +64,6 @@ public class EpicStatusTest {
 
         Epic epic = manager.getEpicById(3);
         assertEquals(epic.getStatus(), Status.IN_PROGRESS.toString());
-//        assertNotNull(epic);
-//        assertEquals(epic.getAllSubtasks().size(), 2);
-//        assertEquals(epic.getAllSubtasks().get(0).getEpicId(), 3);
     }
 
     @Test
@@ -90,8 +81,5 @@ public class EpicStatusTest {
 
         Epic epic = manager.getEpicById(3);
         assertEquals(epic.getStatus(), Status.IN_PROGRESS.toString());
-//        assertNotNull(epic);
-//        assertEquals(epic.getAllSubtasks().size(), 2);
-//        assertEquals(epic.getAllSubtasks().get(0).getEpicId(), 3);
     }
 }

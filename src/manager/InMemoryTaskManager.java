@@ -152,7 +152,6 @@ public class InMemoryTaskManager implements TaskManager {
         historyManager.remove(id);
         // удаляем эту подзадачу из всех эпиков
         for (Map.Entry<Integer, Epic> entry : epics.entrySet()) {
-            // Integer key = entry.getKey();
             Epic value = entry.getValue();
             value.deleteSubtask(id);
         }

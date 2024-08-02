@@ -24,12 +24,11 @@ public class FileTest {
             File file = File.createTempFile("test", "csv");
             // write data to file
             Writer fileWriter = new FileWriter(file, false);
-            fileWriter.write("id,type,name,status,description,epic\n");
-//            fileWriter.write("2,TASK,task2,NEW,my second task,\n");
+            final String firstLine = "id,type,name,status,description,duration,startTime,epic\n";
+            fileWriter.write(firstLine);
             fileWriter.write("3,TASK,task3,NEW,my third task,10,01.02.2222|11:11,1\n");
             fileWriter.flush();
-//            id,type,name,status,description,duration,startTime,epic
-//            fileWriter.close();
+            fileWriter.close();
 
             taskManager = new FileBackedTaskManager(historyManager, file.getPath());
             assertEquals(1, taskManager.getAllTasks().size());
