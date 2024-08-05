@@ -43,6 +43,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     subtasks.put(task.getId(), (Subtask) task);
                 } else {
                     tasks.put(task.getId(), task);
+                    prioritizedTasks.add(task);
                 }
             }
         } catch (Exception e) {

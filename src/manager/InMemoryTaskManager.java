@@ -1,5 +1,6 @@
 package manager;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import model.*;
@@ -87,8 +88,8 @@ public class InMemoryTaskManager implements TaskManager {
     ////////////////////////////////////////
 
     protected boolean isCrossing(Task task1, Task task2) {
-        return (task1.getEndTime().isAfter(task2.getStartTime()))
-                || (task2.getEndTime().isAfter(task1.getStartTime()));
+        // математич. метод пересечения временных отрезков
+        return task1.getStartTime().isBefore(task2.getEndTime()) && task2.getStartTime().isBefore(task1.getEndTime());
     }
 
     protected boolean isCrossingWithAnyOther(Task task, Set<Task> tasks) {
@@ -132,6 +133,7 @@ public class InMemoryTaskManager implements TaskManager {
         epics.put(epic.getId(), epic);
     }
 
+    @Override
     public void updateSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
     }
