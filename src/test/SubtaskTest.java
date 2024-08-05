@@ -25,7 +25,7 @@ class SubtaskTest {
 
     @Test
     public void canNotSubtaskBeItsOwnEpic() {
-        try {
+        try {  // здесь обратная логика (см catch ниже), без try не обойтись
             Task subtask = new Subtask("subtask1", "subtask1 description", 111, Status.NEW,
                     111, Duration.ZERO, LocalDateTime.now());
             assertTrue(false);
