@@ -18,6 +18,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
+        if (task == null) return;
         if (idNode.containsKey(task.getId())) {  // эта задача уже просматривалась => удаляем ее из истории просмотров
             removeNodeFromList(idNode.get(task.getId()));
             idNode.remove(task.getId());

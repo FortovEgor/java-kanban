@@ -2,7 +2,9 @@ package manager;
 
 public class Managers {
     public static TaskManager getDefault() {
-        return new InMemoryTaskManager(getDefaultHistory());
+        // changed from InMemoryTaskManager to test
+        return new FileBackedTaskManager(getDefaultHistory(),
+                "/Users/egorfortov/Desktop/YandexPracticum/java-kanban/test.csv");
     }
 
     public static HistoryManager getDefaultHistory() {

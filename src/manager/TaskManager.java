@@ -10,6 +10,7 @@ public interface TaskManager {
     Collection<Task> getAllTasks();
     Collection<Epic> getAllEpics();
     Collection<Subtask> getAllSubtasks();
+    Set<Task> getPrioritizedTasks();
 
     void deleteAllTasks();
     void deleteAllEpics();
@@ -19,7 +20,7 @@ public interface TaskManager {
     Subtask getSubtaskById(int id);
     Task getEpicById(int id);
 
-    void addTask(Task task);
+    void addTask(Task task) throws Exception;
     void addEpic(Epic epic);
     void addSubtask(Subtask subtask);
 
