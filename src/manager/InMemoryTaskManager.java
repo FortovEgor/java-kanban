@@ -1,14 +1,13 @@
 package manager;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 import model.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    Map<Integer, Task> tasks;  // HashMap's key always matches task's id
-    Map<Integer, Epic> epics;  // HashMap's key always matches task's id
-    Map<Integer, Subtask> subtasks;  // HashMap's key always matches task's id
+    private Map<Integer, Task> tasks;  // HashMap's key always matches task's id
+    private Map<Integer, Epic> epics;  // HashMap's key always matches task's id
+    private Map<Integer, Subtask> subtasks;  // HashMap's key always matches task's id
     HistoryManager historyManager;
 
     Set<Task> prioritizedTasks;  // список задач по приоритету
@@ -98,8 +97,8 @@ public class InMemoryTaskManager implements TaskManager {
     ////////////////////////////////////////
 
     @Override
-    public void addTask(Task task) {
-        if (isCrossingWithAnyOther(task, prioritizedTasks)) return;
+    public void addTask(Task task) throws Exception {
+        if (isCrossingWithAnyOther(task, prioritizedTasks)) throw new Exception("");
 
         int taskId = tasks.size() + 1;  // taskId must be unique
         while (tasks.containsKey(taskId)) {

@@ -25,7 +25,7 @@ public class InMemoryTaskManagerSprint8 extends TaskManagerTest<InMemoryTaskMana
     private static Epic epic1;
 
     @BeforeAll
-    public static void setup() {
+    public static void setup() throws Exception {
         manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
         // create & add tasks and its inheritance
@@ -167,7 +167,7 @@ public class InMemoryTaskManagerSprint8 extends TaskManagerTest<InMemoryTaskMana
     @Override
     @Test
     public void getAllSubtasksOfTheEpicTest() {
-        ArrayList<Subtask> subtasks = (ArrayList<Subtask>) manager.getAllSubtasksOfTheEpic(3);
+        var subtasks = new ArrayList<>(manager.getAllSubtasksOfTheEpic(3));
         assertEquals(1, subtasks.size());
         assertEquals(subtask1, subtasks.get(0));
     }

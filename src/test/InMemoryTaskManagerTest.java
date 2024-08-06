@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
     @Test
-    public void reallyAddTasksOfDifferentTypesAndCanFindThemById() {
+    public void reallyAddTasksOfDifferentTypesAndCanFindThemById() throws Exception {
         InMemoryTaskManager manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
         // create & add tasks and its inheritance
@@ -51,7 +51,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void immutabilityOfTheTaskAddedToManager() {
+    public void immutabilityOfTheTaskAddedToManager() throws Exception {
         InMemoryTaskManager manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
         Task task = new Task("task1_name", "task1_description", 1, Status.NEW,

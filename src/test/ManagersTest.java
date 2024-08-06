@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ManagersTest {
     @Test
-    public void shouldBeEqualIfIdsAreEqual() {
+    public void shouldBeEqualIfIdsAreEqual() throws Exception {
         // здесь приведем просто весь код Main без console output; он покрывает все методы классов менеджеров
         ///// creating objects /////
         Task task1 = new Task("task1", "my first task", 1, NEW,

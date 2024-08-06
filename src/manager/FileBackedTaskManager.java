@@ -38,11 +38,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
                 Task task = fromString(line);  //
                 if (task instanceof Epic) {
-                    epics.put(task.getId(), (Epic) task);
+                    addEpic((Epic) task);
                 } else if (task instanceof Subtask) {
-                    subtasks.put(task.getId(), (Subtask) task);
+                    addSubtask((Subtask) task);
                 } else {
-                    tasks.put(task.getId(), task);
+                    addTask(task);
                     prioritizedTasks.add(task);
                 }
             }
@@ -88,22 +88,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (Writer fileWriter = new FileWriter(file, false)) {
             fileWriter.write("id,type,name,status,description,duration,startTime,epic\n");
 
-            final int tasksNumber = tasks.size() + epics.size() + subtasks.size();
+            final int tasksNumber = getAllTasks().size() + getAllEpics().size() + getAllSubtasks().size();
             int savedTasksNumber = 0;
             boolean isLastLine;
-            for (Task task : tasks.values()) {
+            for (Task task : getAllTasks()) {
                 isLastLine = (savedTasksNumber + 1 == tasksNumber);
                 fileWriter.write(toString(task, TaskType.TASK) + (isLastLine ? "\n" : ",\n"));
                 ++savedTasksNumber;
             }
             // save all epics
-            for (Task epic : epics.values()) {
+            for (Task epic : getAllEpics()) {
                 isLastLine = (savedTasksNumber + 1 == tasksNumber);
                 fileWriter.write(toString(epic, TaskType.EPIC) + (isLastLine ? "\n" : ",\n"));
                 ++savedTasksNumber;
             }
             // save all subtasks
-            for (Subtask subtask : subtasks.values()) {
+            for (Subtask subtask : getAllSubtasks()) {
                 isLastLine = (savedTasksNumber + 1 == tasksNumber);
                 fileWriter.write(toString(subtask, TaskType.SUBTASK) + "," + subtask.getEpicId() + (isLastLine ? "\n" : ",\n"));
                 ++savedTasksNumber;
@@ -132,7 +132,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void addTask(Task task) {
+    public void addTask(Task task) throws Exception {
         super.addTask(task);
         save();
     }

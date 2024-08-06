@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FileTest {
     @Test
-    public void importExport() {
+    public void importExport() throws Exception {
         InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
         FileBackedTaskManager taskManager = null;
         File file = File.createTempFile("test", "csv");

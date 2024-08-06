@@ -14,7 +14,7 @@ import java.util.Collection;
 import static model.Status.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         ///// creating objects /////
         Task task1 = new Task("task1", "my first task", 1, NEW, Duration.ZERO, LocalDateTime.now());
         Task task2 = new Task("task2", "my second task", 2, NEW, Duration.ZERO, LocalDateTime.now());

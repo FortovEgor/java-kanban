@@ -30,7 +30,7 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
     private static Epic epic1;
 
     @BeforeAll
-    public static void setup() throws IOException {
+    public static void setup() throws Exception {
         File file = File.createTempFile("test", "csv");
         // write data to file
         Writer fileWriter = new FileWriter(file, false);
@@ -70,8 +70,8 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
     @Test
     public void getAllSubtasksTest() {
         assertEquals(1, manager.getAllSubtasks().size());
-        ArrayList<Subtask> subtasks = new ArrayList<>((Collection<Subtask>) manager.getAllSubtasks());
-        assertEquals(1, subtasks.get(0).getEpicId());
+        var id = manager.getAllSubtasks().stream().findFirst().map(Subtask::getEpicId).orElse(null);
+        assertEquals(1, id);
     }
 
     @Override
@@ -83,6 +83,7 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
     @Override
     @Test
     public void deleteAllTasksTest() {
+        assertFalse(manager.getAllTasks().isEmpty());
         manager.deleteAllTasks();
         assertTrue(manager.getAllTasks().isEmpty());
     }
@@ -90,6 +91,7 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
     @Override
     @Test
     public void deleteAllEpicsTest() {
+        assertFalse(manager.getAllEpics().isEmpty());
         manager.deleteAllEpics();
         assertTrue(manager.getAllEpics().isEmpty());
     }
@@ -97,6 +99,7 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
     @Override
     @Test
     public void deleteAllSubtasksTest() {
+        assertFalse(manager.getAllSubtasks().isEmpty());
         manager.deleteAllSubtasks();
         assertTrue(manager.getAllSubtasks().isEmpty());
     }
@@ -129,7 +132,7 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
                 Duration.ZERO, LocalDateTime.now().plusMinutes(10));
         manager.updateTask(task);
 
-        Task taskUpdated = manager.getTaskById(1);  // уже оттестировано выше
+        Task taskUpdated = manager.getTaskById(1);
         assertEquals(task, taskUpdated);
     }
 
@@ -140,7 +143,7 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
                 new ArrayList<>(Arrays.asList(subtask1)));
         manager.updateEpic(epic);
 
-        Epic epicUpdated = manager.getEpicById(3);  // уже оттестировано выше
+        Epic epicUpdated = manager.getEpicById(3);
         assertEquals(epic, epicUpdated);
     }
 
@@ -151,7 +154,7 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
                 2, Status.NEW, 1, Duration.ZERO, LocalDateTime.now().minusMinutes(10));
         manager.updateSubtask(subtask);
 
-        Subtask subtaskUpdated = manager.getSubtaskById(2);  // уже оттестировано выше
+        Subtask subtaskUpdated = manager.getSubtaskById(2);
         assertEquals(subtask, subtaskUpdated);
     }
 
@@ -159,7 +162,7 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
     @Test
     public void removeTaskTest() {
         manager.removeTask(1);
-        assertNull(manager.getTaskById(1));  // уже оттестировано
+        assertNull(manager.getTaskById(1));
     }
 
     @Override
@@ -201,6 +204,6 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
         manager.getAllTasks();
         manager.getAllSubtasks();
         ArrayList<Task> history = (ArrayList<Task>) manager.getHistory();
-        assertEquals(2, history.size());  // история просмотров
+        assertEquals(3, history.size());  // история просмотров
     }
 }
