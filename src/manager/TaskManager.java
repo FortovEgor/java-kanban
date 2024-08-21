@@ -18,7 +18,7 @@ public interface TaskManager {
 
     Task getTaskById(int id);
     Subtask getSubtaskById(int id);
-    Task getEpicById(int id);
+    Epic getEpicById(int id);
 
     void addTask(Task task) throws Exception;
     void addEpic(Epic epic);
