@@ -12,6 +12,7 @@ import java.util.concurrent.Flow;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EpicTest {
+
     @Test
     public void shouldBeEqualIfIdsAreEqual() {
         Task task1 = new Epic("task1", "task1 description", 111, Status.NEW, new ArrayList<>());
