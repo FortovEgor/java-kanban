@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -77,7 +78,13 @@ public class FileBackedTaskManagerTestSprint8 extends TaskManagerTest<InMemoryTa
     @Override
     @Test
     public void getPrioritizedTasksTest() {
-        assertEquals(2, manager.getPrioritizedTasks().size());
+        Set<Task> tasksSet = manager.getPrioritizedTasks();
+        Task[] tasksArray = tasksSet.toArray(new Task[tasksSet.size()]);
+
+        assertEquals(tasksArray.length, tasksSet.size());
+        for (int i = 0; i < tasksArray.length - 1; ++i) {
+            assertTrue(tasksArray[i].getStartTime().isBefore(tasksArray[i+1].getStartTime()));
+        }
     }
 
     @Override

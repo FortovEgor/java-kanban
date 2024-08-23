@@ -115,7 +115,7 @@ public class InMemoryTaskManagerSprint8 extends TaskManagerTest<InMemoryTaskMana
                 Duration.ZERO, LocalDateTime.now().plusMinutes(10));
         manager.updateTask(task);
 
-        Task taskUpdated = manager.getTaskById(1);  // уже оттестировано выше
+        Task taskUpdated = manager.getTaskById(1);
         assertEquals(task, taskUpdated);
     }
 

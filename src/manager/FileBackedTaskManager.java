@@ -55,7 +55,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private String toString(Task task, TaskType type) {
         String duration = Long.toString(task.getDuration().toMinutes());
         return String.join(",", Integer.toString((task.getId())), type.name(), task.getName(),
-                task.getStatus(), task.getDescription(), duration,
+                task.getStatus().toString(), task.getDescription(), duration,
                 task.getStartTime().format(formatter));
     }
 

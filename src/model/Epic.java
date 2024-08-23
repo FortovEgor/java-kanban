@@ -32,7 +32,7 @@ public class Epic extends Task {
         int newStatusCount = 0;
         int doneStatusCount = 0;
         for (Subtask subtask : this.subtasks) {
-            switch (subtask.getStatus()) {
+            switch (subtask.getStatus().toString()) {
                 case "NEW":
                     ++newStatusCount;
                     break;
@@ -88,7 +88,7 @@ public class Epic extends Task {
     }
 
     @Override
-    public String getStatus() {
+    public Status getStatus() {
         updateStatus();
         return super.getStatus();
     }

@@ -28,7 +28,7 @@ public class EpicStatusTest {
                 new ArrayList<>(Arrays.asList(subtask1, subtask2)));
         manager.addEpic(epic1);
 
-        Epic epic = manager.getEpicById(3);
+        Epic epic = manager.getEpicById(epic1.getId());
         assertEquals(epic.getStatus(), Status.NEW.toString());
     }
 
@@ -80,6 +80,6 @@ public class EpicStatusTest {
         manager.addEpic(epic1);
 
         Epic epic = manager.getEpicById(3);
-        assertEquals(epic.getStatus(), Status.IN_PROGRESS.toString());
+        assertEquals(epic.getStatus(), Status.IN_PROGRESS);
     }
 }

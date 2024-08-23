@@ -44,9 +44,6 @@ class InMemoryHistoryManagerTest {
 
         historyManager.remove(1);
         assertTrue(historyManager.getHistory().isEmpty());  // remove test
-
-        List<Task> tasksInHistory = historyManager.getHistory();
-        assertTrue(tasksInHistory.isEmpty());  // getHistory test
     }
 
     @Test
@@ -82,9 +79,9 @@ class InMemoryHistoryManagerTest {
         historyManager.add(task3);
         assertEquals(3, historyManager.getHistory().size());  // add test
 
-        historyManager.remove(1);
-        historyManager.remove(2);
-        historyManager.remove(3);
+        historyManager.remove(task1.getId());
+        historyManager.remove(task2.getId());
+        historyManager.remove(task3.getId());
         assertTrue(historyManager.getHistory().isEmpty());  // remove test
 
         List<Task> tasksInHistory = historyManager.getHistory();

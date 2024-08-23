@@ -43,18 +43,12 @@ public class FileTest {
         taskManager.deleteAllEpics();
 
         int tasks = 0;
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(file)); BufferedReader br = new BufferedReader(fileReader)) {
-            while (br.ready()) {
-                String line = br.readLine();
-                ++tasks;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        BufferedReader fileReader = new BufferedReader(new FileReader(file)); BufferedReader br = new BufferedReader(fileReader)
+        while (br.ready()) {
+            String line = br.readLine();
+            ++tasks;
         }
+
         --tasks;  // first line is not a task
         assertEquals(2, tasks);
     }
